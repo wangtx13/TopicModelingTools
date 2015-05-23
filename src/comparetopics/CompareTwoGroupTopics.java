@@ -24,8 +24,8 @@ public class CompareTwoGroupTopics {
     public static void main(String[] args) {
 
         try {
-            File file1 = new File("/Users/apple/Desktop/output/after-process/code+javadoc/composite-originalWords-camel-stopwords/keys.txt");
-            File file2 = new File("/Users/apple/Desktop/output/after-process/javadoc+comments/composite-noCopyright-originalWords-camel-stopwords/keys.txt");
+            File file1 = new File("/Users/apple/Desktop/output/after-process/javadoc+comments/removeClassLibrary-noCopyright-originalWords-camel-stopwords-2/keys.txt");
+            File file2 = new File("/Users/apple/Desktop/output/after-process/javadoc+comments/removeClassLibrary-noCopyright-originalWords-camel-stopwords/keys.txt");
             
             if (!file1.exists()) {
                 System.out.println("File1 isn't exist");
@@ -34,7 +34,7 @@ public class CompareTwoGroupTopics {
             } else {
                 try (
                         InputStream in1 = new FileInputStream(file1.getPath());
-                        BufferedReader reader1 = new BufferedReader(new InputStreamReader(in1));) {
+                        BufferedReader reader1 = new BufferedReader(new InputStreamReader(in1))) {
 
                     String line1 = null;
                     int lineNr1 = -1;
