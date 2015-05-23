@@ -84,7 +84,7 @@ public class GenerateTopicsJson {
                             if (!NumberUtils.isNumber(topics[i])) {
                                 JSONObject topic = new JSONObject();
                                 topic.put("name", topics[i]);
-                                topic.put("size", topicMap.get(topics[i]) * 50);
+                                topic.put("size", topicMap.get(topics[i]));
                                 topicArray.put(topic);
                             }
                         }
