@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package countTopics;
+package test;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,10 +13,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -31,12 +37,12 @@ public class GenerateTopicsJson {
 
     public static void main(String[] args) {
         try {
-            String topicCountFilePath = "/Users/apple/NetBeansProjects/TopicModelingTools/test/word_top.txt";
-            String topicsFilePath = "/Users/apple/NetBeansProjects/TopicModelingTools/test/topic_keys.txt";
-            String outputFilePath = "/Users/apple/NetBeansProjects/TopicModelingTools/test.json";
+            String topicCountFilePath = "/Users/apple/Desktop/word_count.txt";
+            String topicsFilePath = "/Users/apple/Desktop/keys.txt";
+            String outputFilePath = "/Users/apple/Desktop/test.json";
             File outputFile = new File(outputFilePath);
             if (outputFile.createNewFile()) {
-                System.out.println(outputFile.getName() + "create successful...");
+                System.out.println(outputFile.getName() + " create successful...");
             }
 
             Map<String, Integer> topicMap = new HashMap<>();
@@ -50,23 +56,23 @@ public class GenerateTopicsJson {
 
                 String countLine = "";
                 while ((countLine = countReader.readLine()) != null) {
-                    String[] topics = countLine.split("\t| ");
-                    int count = 0;
-                    for (String topic : topics) {
-                        if (topic.contains(":")) {
-                            count++;
-                        }
-                    }
+//                    String[] topics = countLine.split("\t| ");
+//                    int count = 0;
+//                    for (String topic : topics) {
+//                        if (topic.contains(":")) {
+//                            count++;
+//                        }
+//                    }
 
-                    topicMap.put(topics[1], count);
-//                    System.out.print("in:" + topics[1] + " " + count);
-//                    System.out.println();
+                    String[] topics = countLine.split(":");
+                    
+                    topicMap.put(topics[0], Integer.parseInt(topics[1]));
 
                 }
-                
+
                 JSONObject json = new JSONObject();
                 json.put("name", "topics");
-                
+
                 JSONArray children = new JSONArray();
                 json.put("children", children);
 
@@ -75,7 +81,7 @@ public class GenerateTopicsJson {
                     JSONObject topicGroup = new JSONObject();
                     topicGroup.put("name", randomString(8));
 
-                    JSONArray topicArray = new JSONArray(); 
+                    JSONArray topicArray = new JSONArray();
                     topicGroup.put("children", topicArray);
 
                     String[] topics = topicsLine.split("\\s");
@@ -89,16 +95,52 @@ public class GenerateTopicsJson {
                             }
                         }
                     }
-                    
+
                     children.put(topicGroup);
                 }
-                
+
                 json.write(writer);
-                
-            }            
+
+                int index = -1;
+                Map<String, Integer> topicMap2 = new HashMap<>();
+                JSONObject json2 = json;
+
+                JSONArray children2 = json2.getJSONArray("children");
+
+                for (int i = 0; i < children2.length(); ++i) {
+                    JSONObject topicsGroup = children2.getJSONObject(i);
+
+                    JSONArray topicArray = topicsGroup.getJSONArray("children");
+                    for (int j = 0; j < topicArray.length(); ++j) {
+                        JSONObject topic = topicArray.getJSONObject(j);
+                        String topicName = topic.getString("name");
+                        int size = topic.getInt("size");
+//                        System.out.println(topicName + " " + size);
+                        topicMap2.put(topicName, size);
+                    }
+
+                }
+
+                List<Map.Entry<String, Integer>> list = new ArrayList<>();
+                list.addAll(topicMap2.entrySet());
+                Collections.sort(list,
+                        new Comparator<Map.Entry<String, Integer>>() {
+                            public int compare(Map.Entry<String, Integer> m, Map.Entry<String, Integer> n) {
+                                return n.getValue() - m.getValue();
+                            }
+                        }
+                );
+                for (Iterator<Map.Entry<String, Integer>> it = list.iterator(); it.hasNext();) {
+                    ++index;
+                    System.out.println(index + ":" +it.next().getKey() + ":" + it.next().getValue());
+                    
+                }
+
+            }
 
         } catch (IOException ex) {
-            Logger.getLogger(GenerateTopicsJson.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GenerateTopicsJson.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
