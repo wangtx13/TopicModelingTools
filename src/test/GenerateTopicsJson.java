@@ -37,8 +37,8 @@ public class GenerateTopicsJson {
 
     public static void main(String[] args) {
         try {
-            String topicCountFilePath = "/Users/apple/Desktop/word_count.txt";
-            String topicsFilePath = "/Users/apple/Desktop/keys.txt";
+            String topicCountFilePath = "/Users/apple/Desktop/output/after-process/javadoc-comments/demo/word_top.txt";
+            String topicsFilePath = "/Users/apple/Desktop/output/after-process/javadoc-comments/demo/keys.txt";
             String outputFilePath = "/Users/apple/Desktop/test.json";
             File outputFile = new File(outputFilePath);
             if (outputFile.createNewFile()) {
@@ -56,17 +56,19 @@ public class GenerateTopicsJson {
 
                 String countLine = "";
                 while ((countLine = countReader.readLine()) != null) {
-//                    String[] topics = countLine.split("\t| ");
-//                    int count = 0;
-//                    for (String topic : topics) {
-//                        if (topic.contains(":")) {
-//                            count++;
-//                        }
-//                    }
-
-                    String[] topics = countLine.split(":");
+                    String[] topics = countLine.split("\t| ");
+                    int count = 0;
+                    for(int i = 0; i < topics.length; ++i) {
+                        if(topics[i].contains(":")) {
+                            String[] label = topics[i].split(":");
+                            count = count + Integer.parseInt(label[1]);
+                        }
+                        
+                    }
                     
-                    topicMap.put(topics[0], Integer.parseInt(topics[1]));
+//                    System.out.println(topics[1] + " " + count);
+
+                    topicMap.put(topics[1], count);
 
                 }
 
