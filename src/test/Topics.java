@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -77,6 +78,8 @@ public class Topics {
                 
                 
 
+            } catch (JSONException ex) {
+                Logger.getLogger(Topics.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } catch (IOException ex) {

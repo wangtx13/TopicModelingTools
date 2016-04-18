@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.json.JSONObject;
 import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  *
@@ -138,6 +139,8 @@ public class GenerateTopicsJson {
                     
                 }
 
+            } catch (JSONException ex) {
+                Logger.getLogger(GenerateTopicsJson.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } catch (IOException ex) {

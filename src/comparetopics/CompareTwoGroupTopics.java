@@ -24,8 +24,8 @@ public class CompareTwoGroupTopics {
     public static void main(String[] args) {
 
         try {
-            File file1 = new File("/Users/apple/Desktop/keys.txt");
-            File file2 = new File("/Users/apple/Desktop/output/after-process/javadoc-comments/removeClassLibrary-noCopyright-originalWords-camel-stopwords/keys.txt");
+            File file1 = new File("./compare/xxx1/keys.txt");
+            File file2 = new File("./compare/xxx2/keys.txt");
             
             if (!file1.exists()) {
                 System.out.println("File1 isn't exist");
