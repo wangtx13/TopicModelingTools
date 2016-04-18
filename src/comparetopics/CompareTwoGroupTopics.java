@@ -11,6 +11,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.Buffer;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -23,9 +25,17 @@ public class CompareTwoGroupTopics {
 
     public static void main(String[] args) {
 
+        Scanner sc = new Scanner(System.in);
+        System.out.println("please input the path for File1: ");
+        String filepath1 = sc.nextLine();
+        System.out.println("please input the path for File2: ");
+        String filepath2 = sc.nextLine();
+        
         try {
-            File file1 = new File("./compare/xxx1/keys.txt");
-            File file2 = new File("./compare/xxx2/keys.txt");
+            File file1 = new File(filepath1);
+            File file2 = new File(filepath2);
+            System.out.println("File1: " + filepath1);
+            System.out.println("File2: " + filepath2);
             
             if (!file1.exists()) {
                 System.out.println("File1 isn't exist");
